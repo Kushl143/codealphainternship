@@ -1,21 +1,26 @@
-from flask import Flask, render_template, request
-from googletrans import Translator
+from flask import Flask, request, jsonify
+import openai
+
+openai.api_key = "your_openai_api_key"
 
 app = Flask(__name__)
 
-@app.route('/')
-def home():
-    return render_template('index.html')
+@app.route("/chat", methods=["POST"])
+def chat():
+    data = request.json
+    user_message = data.get("message", "")
 
-@app.route('/translate', methods=['POST'])
-def translate():
-    translator = Translator()
-    input_lang = request.form['input_lang']
-    text = request.form['text']
-    output_lang = request.form['output_lang']
+    if not user_message:
+        return jsonify({"error": "No message provided"}), 400
 
-    translated_text = translator.translate(text, src=input_lang, dest=output_lang).text
-    return render_template('index.html', translated_text=translated_text)
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "system", "content": "You are a helpful assistant."},
+                  {"role": "user", "content": user_message}]
+    )
 
-if __name__ == '__main__':
+    bot_response = response["choices"][0]["message"]["content"]
+    return jsonify({"response": bot_response})
+
+if __name__ == "__main__":
     app.run(debug=True)
