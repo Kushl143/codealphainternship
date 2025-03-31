@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Translation Tool</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Container */
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 420px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* Dropdowns & Textarea */
+        select, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        /* Translate Button */
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        /* Translated Text */
+        .result {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🌍 Language Translation Tool</h2>
+        <form action="/translate" method="post">
+            <label for="input_lang">Select Input Language:</label>
+            <select name="input_lang" id="input_lang">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+            </select>
+
+            <label for="text">Enter Text:</label>
+            <textarea name="text" id="text" rows="3" placeholder="Type here..." required></textarea>
+
+            <label for="output_lang">Select Output Language:</label>
+            <select name="output_lang" id="output_lang">
+                <option value="en">English</option>
+                <option value="hi">Hindi</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+            </select>
+
+            <button type="submit">🔄 Translate</button>
+        </form>
+
+        {% if translated_text %}
+        <div class="result">
+            <strong>Translated Text:</strong> {{ translated_text }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
